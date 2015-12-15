@@ -66,7 +66,7 @@ public class SampleSauceTestBase implements SauceOnDemandSessionIdProvider, Sauc
                 new Object[]{"chrome", "41", "Windows XP"},
                 new Object[]{"safari", "7", "OS X 10.9"},
                 new Object[]{"firefox", "35", "Windows 7"},
-                new Object[]{"firefox", "42", "Windows 7"}
+                new Object[]{"firefox", "42", "Windows 10"}
         };
     }
 
@@ -108,7 +108,9 @@ public class SampleSauceTestBase implements SauceOnDemandSessionIdProvider, Sauc
      */
     protected WebDriver createDriver(String browser, String version, String os, String methodName)
             throws MalformedURLException, UnexpectedException {
+
         String seleniumURI = SauceHelpers.buildSauceUri();
+
         DesiredCapabilities capabilities = new DesiredCapabilities();
 
         // set desired capabilities to launch appropriate browser on Sauce
@@ -141,8 +143,7 @@ public class SampleSauceTestBase implements SauceOnDemandSessionIdProvider, Sauc
      */
     @AfterMethod
     public void tearDown() throws Exception {
-
-        //Gets browser logs if available.
         webDriver.get().quit();
     }
+
 }
