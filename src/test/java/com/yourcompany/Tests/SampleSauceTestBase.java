@@ -128,9 +128,9 @@ public class SampleSauceTestBase implements SauceOnDemandSessionIdProvider, Sauc
         //}
 
         // Launch remote browser and set it as the current thread
-        //System.out.println("http://" + authentication.getUsername() + ":" + authentication.getAccessKey() + "ondemand.saucelabs.com:80/wd/hub");
+        System.out.println("http://" + authentication.getUsername() + ":" + authentication.getAccessKey() + "@ondemand.saucelabs.com:80/wd/hub");
         webDriver.set(new RemoteWebDriver(
-                new URL("http://" + authentication.getUsername() + ":" + authentication.getAccessKey() + "ondemand.saucelabs.com:80/wd/hub"),
+                new URL("http://" + authentication.getUsername() + ":" + authentication.getAccessKey() + "@ondemand.saucelabs.com:80/wd/hub"),
                 capabilities));
 
         // set current sessionId
