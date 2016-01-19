@@ -161,6 +161,6 @@ public class SampleSauceTestBase implements SauceOnDemandSessionIdProvider, Sauc
         seleniumURI = SauceHelpers.buildSauceUri();
         //If available add build tag. When running under Jenkins BUILD_TAG is automatically set.
         //You can set this manually on manual runs.
-        buildTag = System.getenv("BUILD_TAG");
+        //buildTag = System.getenv("BUILD_TAG");
     }
 }
