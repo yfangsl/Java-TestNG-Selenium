@@ -123,9 +123,9 @@ public class SampleSauceTestBase implements SauceOnDemandSessionIdProvider, Sauc
         capabilities.setCapability(CapabilityType.PLATFORM, os);
         capabilities.setCapability("name", methodName);
 
-        if (buildTag != null) {
-            capabilities.setCapability("build", buildTag);
-        }
+        //if (buildTag != null) {
+            //capabilities.setCapability("build", buildTag);
+        //}
 
         // Launch remote browser and set it as the current thread
         webDriver.set(new RemoteWebDriver(
