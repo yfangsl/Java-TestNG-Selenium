@@ -6,6 +6,7 @@ import com.saucelabs.common.SauceOnDemandSessionIdProvider;
 import com.saucelabs.testng.SauceOnDemandAuthenticationProvider;
 import com.saucelabs.testng.SauceOnDemandTestListener;
 
+import com.saucelabs.testng.SauceOnDemandTestListenerStubby;
 import com.yourcompany.Utils.SauceHelpers;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.logging.LogType;
@@ -28,7 +29,7 @@ import java.util.logging.Level;
  *
  * @author Neil Manvar
  */
-@Listeners({SauceOnDemandTestListener.class})
+@Listeners({SauceOnDemandTestListenerStubby.class})
 public class SampleSauceTestBase implements SauceOnDemandSessionIdProvider, SauceOnDemandAuthenticationProvider  {
 
     // Selenium URI -- static same for everyone.
