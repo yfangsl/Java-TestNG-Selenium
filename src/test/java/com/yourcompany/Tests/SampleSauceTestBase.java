@@ -122,6 +122,7 @@ public class SampleSauceTestBase implements SauceOnDemandSessionIdProvider, Sauc
         capabilities.setCapability(CapabilityType.BROWSER_NAME, browser);
         capabilities.setCapability(CapabilityType.VERSION, version);
         capabilities.setCapability(CapabilityType.PLATFORM, os);
+        capabilities.setCapability("tag", "abba dabba");
         capabilities.setCapability("name", methodName);
 
         //if (buildTag != null) {
