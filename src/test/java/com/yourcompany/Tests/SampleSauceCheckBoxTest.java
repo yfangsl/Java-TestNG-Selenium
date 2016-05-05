@@ -1,23 +1,16 @@
 package com.yourcompany.Tests;
 
 import com.yourcompany.Pages.GuineaPigPage;
-
-import com.yourcompany.Utils.RetryAnalyzer;
-import org.testng.annotations.Test;
-
-import com.yourcompany.Pages.GuineaPigPage;
-import com.yourcompany.Tests.SampleSauceTestBase;
-
 import org.openqa.selenium.InvalidElementStateException;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.support.PageFactory;
-import org.testng.util.RetryAnalyzerCount;
+import org.testng.SkipException;
+import org.testng.annotations.Test;
 
 import java.lang.reflect.Method;
 import java.net.MalformedURLException;
 import java.rmi.UnexpectedException;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 /**
  * Created by mehmetgerceker on 12/7/15.
@@ -33,7 +26,11 @@ public class SampleSauceCheckBoxTest extends SampleSauceTestBase {
     @Test(dataProvider = "hardCodedBrowsers")
     public void verifyUncheckedCheckBoxInputTest(String browser, String version, String os, Method method)
             throws MalformedURLException, InvalidElementStateException, UnexpectedException {
+		if((browser == "chrome") || (browser == "internet explorer")){
+			System.out.println("Passing test because of invalid browser: " + browser);
+            throw new SkipException("Testing skip.");
 
+		}
         //create webdriver session
         this.createDriver(browser, version, os, method.getName());
         WebDriver driver = this.getWebDriver();
@@ -63,30 +60,4 @@ public class SampleSauceCheckBoxTest extends SampleSauceTestBase {
      *
      * @throws InvalidElementStateException
      */
-    @Test(dataProvider = "hardCodedBrowsers", retryAnalyzer = RetryAnalyzer.class)
-    public void verifyCheckedCheckBoxInputTest(String browser, String version, String os, Method method)
-            throws MalformedURLException, InvalidElementStateException, UnexpectedException {
-
-        //create webdriver session
-        this.createDriver(browser, version, os, method.getName());
-        WebDriver driver = this.getWebDriver();
-
-        driver.get("https://saucelabs.com/test/guinea-pig");
-
-        //Navigate to the page
-        GuineaPigPage page = GuineaPigPage.getPage(driver);
-
-        /*
-         checkUncheckedCheckBox is an exposed "service",
-             which interacts with the email input field element by sending text to it.
-        */
-        page.uncheckCheckedCheckBox();
-
-        /*
-         Assertions should be part of test and not part of Page object.
-         Each test should be verifying one piece of functionality (atomic testing)
-        */
-        assertEquals(page.getCheckedCheckBoxState(), false);
-
-    }
 }
