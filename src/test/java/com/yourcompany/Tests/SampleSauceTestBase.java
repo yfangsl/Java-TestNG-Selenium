@@ -5,23 +5,23 @@ import com.saucelabs.common.SauceOnDemandAuthentication;
 import com.saucelabs.common.SauceOnDemandSessionIdProvider;
 import com.saucelabs.testng.SauceOnDemandAuthenticationProvider;
 import com.saucelabs.testng.SauceOnDemandTestListener;
-
 import com.yourcompany.Utils.SauceHelpers;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.logging.LogType;
 import org.openqa.selenium.remote.CapabilityType;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.RemoteWebDriver;
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.BeforeSuite;
+import org.testng.annotations.DataProvider;
+import org.testng.annotations.Listeners;
 
-// import testng annotations
-import org.testng.annotations.*;
-
-// import java libraries
 import java.lang.reflect.Method;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.rmi.UnexpectedException;
-import java.util.logging.Level;
+
+// import testng annotations
+// import java libraries
 
 /**
  * Simple TestNG test which demonstrates being instantiated via a DataProvider in order to supply multiple browser combinations.
@@ -146,9 +146,12 @@ public class SampleSauceTestBase implements SauceOnDemandSessionIdProvider, Sauc
      */
     @AfterMethod
     public void tearDown() throws Exception {
+        try {
+            //Gets browser logs if available.
+            webDriver.get().quit();
+        } catch (NullPointerException e) {
 
-        //Gets browser logs if available.
-        webDriver.get().quit();
+        }
     }
 
     @BeforeSuite
