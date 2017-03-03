@@ -2,7 +2,7 @@ package com.yourcompany.Tests;
 
 import com.yourcompany.Pages.GuineaPigPage;
 import org.openqa.selenium.InvalidElementStateException;
-import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.*;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
@@ -30,6 +30,8 @@ public class FollowLinkTest extends TestBase {
         WebDriver driver = this.getWebDriver();
 
         GuineaPigPage page = GuineaPigPage.visitPage(driver);
+
+        ((JavascriptExecutor)driver).executeScript("sauce: break");
 
         page.followLink();
 
