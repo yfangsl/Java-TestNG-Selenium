@@ -2,6 +2,7 @@ package com.yourcompany.Tests;
 
 import com.yourcompany.Pages.GuineaPigPage;
 import org.openqa.selenium.InvalidElementStateException;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.testng.Assert;
 import org.testng.annotations.Test;
@@ -29,11 +30,16 @@ public class FollowLinkTest extends TestBase {
         this.createDriver(browser, version, os, method.getName());
         WebDriver driver = this.getWebDriver();
 
-        GuineaPigPage page = GuineaPigPage.visitPage(driver);
+        driver.get("https://www.pandora.com/");
 
-        page.followLink();
 
-        Assert.assertFalse(page.isOnPage());
+        try {
+            Thread.sleep(5000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        System.out.println("done");
     }
 
 }

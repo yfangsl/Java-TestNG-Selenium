@@ -5,6 +5,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 public class GuineaPigPage {
@@ -48,11 +49,17 @@ public class GuineaPigPage {
         submitButton.click();
 
         // Race condition for time to populate yourCommentsSpan
-        WebDriverWait wait = new WebDriverWait(driver, 15);
-        wait.until(ExpectedConditions.textToBePresentInElement(yourCommentsSpan, text));
+//        WebDriverWait wait = new WebDriverWait(driver, 15);
+//        wait.until(ExpectedConditions.textToBePresentInElement(yourCommentsSpan, text));
     }
 
     public String getSubmittedCommentText() {
+        (new WebDriverWait(driver, 10)).until(new ExpectedCondition<Boolean>() {
+            public Boolean apply(WebDriver d) {
+                return !yourCommentsSpan.getText().isEmpty();
+            }
+        });
+
         return yourCommentsSpan.getText();
     }
 

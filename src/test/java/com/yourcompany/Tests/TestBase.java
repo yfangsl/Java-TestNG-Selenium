@@ -7,6 +7,8 @@ import com.saucelabs.common.SauceOnDemandSessionIdProvider;
 import com.saucelabs.testng.SauceOnDemandAuthenticationProvider;
 import com.saucelabs.testng.SauceOnDemandTestListener;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.firefox.FirefoxProfile;
 import org.openqa.selenium.remote.CapabilityType;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.RemoteWebDriver;
@@ -63,11 +65,17 @@ public class TestBase implements SauceOnDemandSessionIdProvider, SauceOnDemandAu
     @DataProvider(name = "hardCodedBrowsers", parallel = true)
     public static Object[][] sauceBrowserDataProvider(Method testMethod) {
         return new Object[][]{
-                new Object[]{"MicrosoftEdge", "14.14393", "Windows 10"},
-                new Object[]{"firefox", "49.0", "Windows 10"},
-                new Object[]{"internet explorer", "11.0", "Windows 7"},
-                new Object[]{"safari", "10.0", "OS X 10.11"},
-                new Object[]{"chrome", "54.0", "OS X 10.10"},
+//                new Object[]{"MicrosoftEdge", "14.14393", "Windows 10"},
+//                new Object[]{"firefox", "49.0", "Windows 10"},
+//                new Object[]{"internet explorer", "11.0", "Windows 7"},
+//                new Object[]{"safari", "10.0", "OS X 10.11"},
+//                new Object[]{"chrome", "54.0", "OS X 10.10"},
+//
+//                new Object[]{"MicrosoftEdge", "latest", "Windows 10"},
+                new Object[]{"firefox", "latest", "Windows 10"},
+//                new Object[]{"internet explorer", "latest", "Windows 7"},
+//                new Object[]{"safari", "latest", "macOS 10.12"},
+//                new Object[]{"chrome", "latest", "Windows 10"},
         };
     }
 
@@ -112,19 +120,34 @@ public class TestBase implements SauceOnDemandSessionIdProvider, SauceOnDemandAu
         DesiredCapabilities capabilities = new DesiredCapabilities();
 
         // set desired capabilities to launch appropriate browser on Sauce
-        capabilities.setCapability(CapabilityType.BROWSER_NAME, browser);
-        capabilities.setCapability(CapabilityType.VERSION, version);
-        capabilities.setCapability(CapabilityType.PLATFORM, os);
-        capabilities.setCapability("name", methodName);
+        capabilities.setCapability(CapabilityType.BROWSER_NAME, "firefox");
+        capabilities.setCapability(CapabilityType.VERSION, "latest");
+        capabilities.setCapability(CapabilityType.PLATFORM, "Windows 7");
+        capabilities.setCapability("name", "sample test name");
 
-        if (buildTag != null) {
-            capabilities.setCapability("build", buildTag);
-        }
+        FirefoxProfile firefoxProfile = new FirefoxProfile();
+        firefoxProfile.setPreference("extensions.blocklist.enabled", false);
+
+        capabilities.setCapability(FirefoxDriver.PROFILE, firefoxProfile);
 
         // Launch remote browser and set it as the current thread
-        webDriver.set(new RemoteWebDriver(
+        WebDriver driver = new RemoteWebDriver(
                 new URL("https://" + authentication.getUsername() + ":" + authentication.getAccessKey() + seleniumURI +"/wd/hub"),
-                capabilities));
+                capabilities);
+
+        driver.get("https://watch.spectrum.net/");
+
+        // flash notification dialog should not be present
+
+        try {
+            Thread.sleep(10000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        driver.quit();
+
+
 
         // set current sessionId
         String id = ((RemoteWebDriver) getWebDriver()).getSessionId().toString();
