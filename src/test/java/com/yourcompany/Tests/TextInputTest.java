@@ -22,9 +22,9 @@ public class TextInputTest extends TestBase {
      * @throws InvalidElementStateException
      */
     @org.testng.annotations.Test(dataProvider = "hardCodedBrowsers")
-    public void verifyCommentInputTest(String browser, String version, String os, Method method)
+    public void verifyCommentInputTest(String browser, String version, String os, String deviceName, String platformName, String platformVersion, Method method)
             throws MalformedURLException, InvalidElementStateException, UnexpectedException {
-        this.createDriver(browser, version, os, method.getName());
+        this.createDriver(browser, version, os, deviceName, platformName, platformVersion, method.getName());
         WebDriver driver = this.getWebDriver();
 
         String commentInputText = UUID.randomUUID().toString();

@@ -63,11 +63,16 @@ public class TestBase implements SauceOnDemandSessionIdProvider, SauceOnDemandAu
     @DataProvider(name = "hardCodedBrowsers", parallel = true)
     public static Object[][] sauceBrowserDataProvider(Method testMethod) {
         return new Object[][]{
-                new Object[]{"MicrosoftEdge", "14.14393", "Windows 10"},
-                new Object[]{"firefox", "49.0", "Windows 10"},
-                new Object[]{"internet explorer", "11.0", "Windows 7"},
-                new Object[]{"safari", "10.0", "OS X 10.11"},
-                new Object[]{"chrome", "54.0", "OS X 10.10"},
+                // Desktop browsers
+                new Object[]{"MicrosoftEdge", "14.14393", "Windows 10", null, null, null},
+                new Object[]{"firefox", "49.0", "Windows 10", null, null, null },
+                new Object[]{"internet explorer", "11.0", "Windows 7", null, null, null },
+                new Object[]{"safari", "10.0", "OS X 10.11", null, null, null },
+                new Object[]{"chrome", "54.0", "OS X 10.10", null, null, null },
+
+                // Mobile (ios/Safari and Android browser)
+                new Object[]{"Safari", null, null, "iPhone 6 Simulator", "iOS", "9.3" },
+                new Object[]{"Browser", null, null, "Samsung Galaxy S4 Emulator", "Android", "4.4" },
         };
     }
 
@@ -107,19 +112,24 @@ public class TestBase implements SauceOnDemandSessionIdProvider, SauceOnDemandAu
      * @return
      * @throws MalformedURLException if an error occurs parsing the url
      */
-    protected void createDriver(String browser, String version, String os, String methodName)
+    protected void createDriver(String browser, String version, String os, String deviceName, String platformName, String platformVersion, String methodName)
             throws MalformedURLException, UnexpectedException {
         DesiredCapabilities capabilities = new DesiredCapabilities();
 
         // set desired capabilities to launch appropriate browser on Sauce
         capabilities.setCapability(CapabilityType.BROWSER_NAME, browser);
-        capabilities.setCapability(CapabilityType.VERSION, version);
-        capabilities.setCapability(CapabilityType.PLATFORM, os);
+        if (version != null) capabilities.setCapability(CapabilityType.VERSION, version);
+        if (os != null) capabilities.setCapability(CapabilityType.PLATFORM, os);
         capabilities.setCapability("name", methodName);
 
         if (buildTag != null) {
             capabilities.setCapability("build", buildTag);
         }
+
+        if (deviceName != null) capabilities.setCapability("deviceName", deviceName);
+        if (deviceName != null) capabilities.setCapability("appiumVersion", "1.6");
+        if (platformName != null) capabilities.setCapability("platformName", platformName);
+        if (platformVersion != null) capabilities.setCapability("platformVersion", platformVersion);
 
         // Launch remote browser and set it as the current thread
         webDriver.set(new RemoteWebDriver(

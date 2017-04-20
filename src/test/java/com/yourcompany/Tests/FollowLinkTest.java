@@ -22,11 +22,11 @@ public class FollowLinkTest extends TestBase {
      * @throws InvalidElementStateException
      */
     @Test(dataProvider = "hardCodedBrowsers")
-    public void verifyLinkTest(String browser, String version, String os, Method method)
+    public void verifyLinkTest(String browser, String version, String os, String deviceName, String platformName, String platformVersion, Method method)
             throws MalformedURLException, InvalidElementStateException, UnexpectedException {
 
         //create webdriver session
-        this.createDriver(browser, version, os, method.getName());
+        this.createDriver(browser, version, os, deviceName, platformName, platformVersion, method.getName());
         WebDriver driver = this.getWebDriver();
 
         GuineaPigPage page = GuineaPigPage.visitPage(driver);
