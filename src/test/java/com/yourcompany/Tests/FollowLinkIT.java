@@ -4,36 +4,36 @@ import com.yourcompany.Pages.GuineaPigPage;
 import org.openqa.selenium.InvalidElementStateException;
 import org.openqa.selenium.WebDriver;
 import org.testng.Assert;
+import org.testng.annotations.Test;
 
 import java.lang.reflect.Method;
 import java.net.MalformedURLException;
 import java.rmi.UnexpectedException;
-import java.util.UUID;
-
 
 /**
  * Created by mehmetgerceker on 12/7/15.
  */
 
-public class TextInputTest extends TestBase {
+public class FollowLinkIT extends TestBase {
 
     /**
-     * Runs a simple test verifying if the comment input is functional.
+     * Runs a simple test verifying link can be followed.
+     *
      * @throws InvalidElementStateException
      */
-    @org.testng.annotations.Test(dataProvider = "hardCodedBrowsers")
-    public void verifyCommentInputTest(String browser, String version, String os, Method method)
+    @Test(dataProvider = "hardCodedBrowsers")
+    public void verifyLinkTest(String browser, String version, String os, Method method)
             throws MalformedURLException, InvalidElementStateException, UnexpectedException {
+
+        //create webdriver session
         this.createDriver(browser, version, os, method.getName());
         WebDriver driver = this.getWebDriver();
 
-        String commentInputText = UUID.randomUUID().toString();
-
         GuineaPigPage page = GuineaPigPage.visitPage(driver);
 
-        page.submitComment(commentInputText);
+        page.followLink();
 
-        Assert.assertTrue(page.getSubmittedCommentText().contains(commentInputText));
+        Assert.assertFalse(page.isOnPage());
     }
 
 }
