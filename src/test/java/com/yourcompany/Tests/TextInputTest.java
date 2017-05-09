@@ -33,7 +33,7 @@ public class TextInputTest extends TestBase {
 
         page.submitComment(commentInputText);
 
-        Assert.assertTrue(page.getSubmittedCommentText().contains(commentInputText));
+        Assert.assertTrue(page.getSubmittedCommentText().contains("123"));
     }
 
 }
