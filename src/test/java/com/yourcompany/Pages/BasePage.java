@@ -14,13 +14,22 @@ public class BasePage {
 
     protected WebDriver driver;
 
+    public BasePage(WebDriver driver) {
+        this.driver = driver;
+    }
+
     public void click(By locator) throws Exception {
         WebElement element = waitForElement(locator);
         element.click();
     }
 
-    private WebElement waitForElement(By locator) {
-        return new WebDriverWait(driver, 5).until(ExpectedConditions.presenceOfElementLocated(locator));
+    public void sendKeys(By locator, String text) throws Exception {
+        WebElement element = waitForElement(locator);
+        element.sendKeys(text);
+    }
+
+    public WebElement waitForElement(By locator) {
+        return new WebDriverWait(driver, 30).until(ExpectedConditions.presenceOfElementLocated(locator));
     }
 
 }

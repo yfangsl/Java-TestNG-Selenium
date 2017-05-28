@@ -7,13 +7,12 @@ import org.openqa.selenium.WebDriver;
 
 public class DesktopSauceHomePage extends BasePage implements SauceHomePage {
 
+    public DesktopSauceHomePage(WebDriver driver) {
+        super(driver);
+    }
     private By signInButton = By.cssSelector("header a[href='/beta/login']");
 
-    public static String url = "https://saucelabs.com";
-
-    public DesktopSauceHomePage(WebDriver driver) {
-        this.driver = driver;
-    }
+    public static String url = "https://www.saucelabs.com";
 
     public void visitPage() {
         this.driver.get(url);

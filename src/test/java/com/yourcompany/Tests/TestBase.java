@@ -56,7 +56,7 @@ public class TestBase  {
                 new Object[]{"internet explorer", "11.0", "Windows 7", "DesktopWeb"},
                 new Object[]{"safari", "10.0", "OS X 10.11", "DesktopWeb"},
                 new Object[]{"chrome", "54.0", "OS X 10.10", "DesktopWeb"},
-
+//
                 new Object[]{"chrome", "6.0", "Android Emulator", "Android"},
                 new Object[]{"Browser", "5.0", "Android Emulator", "Android"},
 

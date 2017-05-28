@@ -11,12 +11,12 @@ import org.openqa.selenium.WebDriver;
 public class MobileWebSauceHomePage extends BasePage implements SauceHomePage {
 
     public MobileWebSauceHomePage(WebDriver driver) {
-        this.driver = driver;
+        super(driver);
     }
     private By menuBtn = By.cssSelector(".N54G");
     private By signInButton = By.cssSelector("#site-header a[data-reactid='69']");
 
-    public static String url = "https://saucelabs.com";
+    public static String url = "https://www.saucelabs.com";
 
     public void visitPage() {
         this.driver.get(url);
