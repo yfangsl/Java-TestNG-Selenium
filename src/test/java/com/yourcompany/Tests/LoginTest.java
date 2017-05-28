@@ -1,6 +1,7 @@
 package com.yourcompany.Tests;
 
-import com.yourcompany.Pages.desktopWeb.DesktopSauceHomePage;
+import com.yourcompany.Pages.DesktopWeb.DesktopSauceHomePage;
+import com.yourcompany.Pages.SauceHomePage;
 import org.openqa.selenium.InvalidElementStateException;
 import org.openqa.selenium.WebDriver;
 
@@ -18,13 +19,13 @@ public class LoginTest extends TestBase {
      * @throws InvalidElementStateException
      */
     @org.testng.annotations.Test(dataProvider = "hardCodedBrowsers")
-    public void verifyCommentInputTest(String browser, String version, String os, String pageobject, Method method)
+    public void invalidLoginTest(String browser, String version, String os, String pageobject, Method method)
             throws Exception {
         this.createDriver(browser, version, os, pageobject,method.getName());
         WebDriver driver = getWebDriver();
 
 
-        DesktopSauceHomePage page = new DesktopSauceHomePage(driver);
+        SauceHomePage page = pageFactory.createSauceHomePage(driver);
         page.visitPage();
         page.goToLogin();
 

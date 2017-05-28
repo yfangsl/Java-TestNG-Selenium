@@ -6,6 +6,7 @@ import com.saucelabs.common.SauceOnDemandAuthentication;
 import com.saucelabs.common.SauceOnDemandSessionIdProvider;
 import com.saucelabs.testng.SauceOnDemandAuthenticationProvider;
 import com.saucelabs.testng.SauceOnDemandTestListener;
+import com.yourcompany.Pages.PageFactories.AndroidPageFactory;
 import com.yourcompany.Pages.PageFactories.DesktopWebPageFactory;
 import com.yourcompany.Pages.PageFactories.PageFactory;
 import org.apache.xpath.operations.Bool;
@@ -15,6 +16,7 @@ import org.openqa.selenium.remote.CapabilityType;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.RemoteWebDriver;
 import org.testng.ITestResult;
+import com.yourcompany.Utils.SauceUtils;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Listeners;
@@ -34,13 +36,6 @@ import java.rmi.UnexpectedException;
  */
 public class TestBase  {
 
-    public String seleniumURI = "@ondemand.saucelabs.com:443";
-
-    public String buildTag = System.getenv("BUILD_TAG");
-
-    public String username = System.getenv("SAUCE_USERNAME");
-
-    public String accesskey = System.getenv("SAUCE_ACCESS_KEY");
     protected PageFactory pageFactory;
 
     /**
@@ -62,11 +57,17 @@ public class TestBase  {
     @DataProvider(name = "hardCodedBrowsers", parallel = true)
     public static Object[][] sauceBrowserDataProvider(Method testMethod) {
         return new Object[][]{
-                new Object[]{"MicrosoftEdge", "14.14393", "Windows 10", "desktopWeb"},
-                new Object[]{"firefox", "49.0", "Windows 10", "desktopWeb"},
-                new Object[]{"internet explorer", "11.0", "Windows 7", "desktopWeb"},
-                new Object[]{"safari", "10.0", "OS X 10.11", "desktopWeb"},
-                new Object[]{"chrome", "54.0", "OS X 10.10", "desktopWeb"},
+                new Object[]{"MicrosoftEdge", "14.14393", "Windows 10", "DesktopWeb"},
+                new Object[]{"firefox", "49.0", "Windows 10", "DesktopWeb"},
+                new Object[]{"internet explorer", "11.0", "Windows 7", "DesktopWeb"},
+                new Object[]{"safari", "10.0", "OS X 10.11", "DesktopWeb"},
+                new Object[]{"chrome", "54.0", "OS X 10.10", "DesktopWeb"},
+
+                new Object[]{"chrome", "6.0", "Android Emulator", "Android"},
+                new Object[]{"Browser", "5.0", "Android Emulator", "Android"},
+
+                new Object[]{"Safari", "10.3", "iPhone 6 Simulator", "iOS"},
+                new Object[]{"Safari", "9.3", "iPad 2 Simulator", "DesktopWeb"},
         };
     }
 
@@ -101,25 +102,16 @@ public class TestBase  {
     protected void createDriver(String browser, String version, String os, String pageobject, String methodName)
             throws MalformedURLException, UnexpectedException {
 
-//        if (SauceUtils.isSauce()) {
-//            capabilities = SauceUtils.CreateCapabilities(scenario);
-//            url = SauceUtils.getURL(USERNAME, ACCESS_KEY);
-//        }
-        DesiredCapabilities capabilities = new DesiredCapabilities();
+        DesiredCapabilities capabilities = null;
+        String url = "";
 
-        // set desired capabilities to launch appropriate browser on Sauce
-        capabilities.setCapability(CapabilityType.BROWSER_NAME, browser);
-        capabilities.setCapability(CapabilityType.VERSION, version);
-        capabilities.setCapability(CapabilityType.PLATFORM, os);
-        capabilities.setCapability("name", methodName);
-
-        if (buildTag != null) {
-            capabilities.setCapability("build", buildTag);
+        if (SauceUtils.isSauce(os, pageobject)) {
+            capabilities = SauceUtils.CreateCapabilities(browser, version, os, pageobject, methodName);
+            url = SauceUtils.getURL();
         }
-
         // Launch remote browser and set it as the current thread
         webDriver.set(new RemoteWebDriver(
-                new URL("https://" + username + ":" + accesskey  + seleniumURI +"/wd/hub"),
+                new URL(url),
                 capabilities));
 
         // set current sessionId
@@ -133,10 +125,13 @@ public class TestBase  {
     }
 
     private PageFactory createPageFactory(String pageobject) {
-        if (pageobject.equals("desktopWeb")) {
+        if (pageobject.equals("DesktopWeb")) {
             return new DesktopWebPageFactory();
+        } else if (pageobject.equals("Android") || pageobject.equals("iOS")) {
+            return new AndroidPageFactory();
         } else {
             return null;
+
         }
 
     }
@@ -148,8 +143,9 @@ public class TestBase  {
      */
     @AfterMethod
     public void tearDown(ITestResult result) throws Exception {
-        ((JavascriptExecutor) webDriver.get()).executeScript("sauce:job-result=" +
-                (result.isSuccess() ? "passed" : "failed"));
+        SauceUtils.updateResults(webDriver.get(), result.isSuccess());
+
+//        System.out.println("\n\n\n" + webDriver.get().getPageSource() + "\n\n\n");
 
         //Gets browser logs if available.
         webDriver.get().quit();

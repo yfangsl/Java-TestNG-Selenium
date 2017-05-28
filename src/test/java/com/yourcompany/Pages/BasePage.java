@@ -20,7 +20,7 @@ public class BasePage {
     }
 
     private WebElement waitForElement(By locator) {
-        return new WebDriverWait(driver, 30).until(ExpectedConditions.presenceOfElementLocated(locator));
+        return new WebDriverWait(driver, 5).until(ExpectedConditions.presenceOfElementLocated(locator));
     }
 
 }

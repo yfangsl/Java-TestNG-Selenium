@@ -1,6 +1,6 @@
 package com.yourcompany.Pages.PageFactories;
 
-import com.yourcompany.Pages.desktopWeb.DesktopSauceHomePage;
+import com.yourcompany.Pages.DesktopWeb.DesktopSauceHomePage;
 import org.openqa.selenium.WebDriver;
 
 /**
