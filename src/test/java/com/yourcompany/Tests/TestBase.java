@@ -2,24 +2,18 @@ package com.yourcompany.Tests;
 
 // import Sauce TestNG helper libraries
 
-import com.saucelabs.common.SauceOnDemandAuthentication;
-import com.saucelabs.common.SauceOnDemandSessionIdProvider;
-import com.saucelabs.testng.SauceOnDemandAuthenticationProvider;
-import com.saucelabs.testng.SauceOnDemandTestListener;
-import com.yourcompany.Pages.PageFactories.AndroidPageFactory;
+import com.yourcompany.Pages.PageFactories.MobileWebPageFactory;
 import com.yourcompany.Pages.PageFactories.DesktopWebPageFactory;
 import com.yourcompany.Pages.PageFactories.PageFactory;
-import org.apache.xpath.operations.Bool;
+import com.yourcompany.Utils.TOUtils;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.remote.CapabilityType;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.RemoteWebDriver;
 import org.testng.ITestResult;
 import com.yourcompany.Utils.SauceUtils;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.DataProvider;
-import org.testng.annotations.Listeners;
 
 import java.lang.reflect.Method;
 import java.net.MalformedURLException;
@@ -68,6 +62,8 @@ public class TestBase  {
 
                 new Object[]{"Safari", "10.3", "iPhone 6 Simulator", "iOS"},
                 new Object[]{"Safari", "9.3", "iPad 2 Simulator", "DesktopWeb"},
+
+                new Object[]{"TestObject - Safari", "9.3", "iPad_3_16GB_real_2", "DesktopWeb"},
         };
     }
 
@@ -105,7 +101,10 @@ public class TestBase  {
         DesiredCapabilities capabilities = null;
         String url = "";
 
-        if (SauceUtils.isSauce(os, pageobject)) {
+        if (TOUtils.isTO(browser)) {
+            capabilities = TOUtils.CreateCapabilities(browser, version, os, pageobject, methodName);
+            url = TOUtils.getURL();
+        } else { // Test Object
             capabilities = SauceUtils.CreateCapabilities(browser, version, os, pageobject, methodName);
             url = SauceUtils.getURL();
         }
@@ -115,8 +114,7 @@ public class TestBase  {
                 capabilities));
 
         // set current sessionId
-        String id = ((RemoteWebDriver) getWebDriver()).getSessionId().toString();
-        sessionId.set(id);
+        sessionId.set(((RemoteWebDriver) getWebDriver()).getSessionId().toString());
 
         pageFactory = createPageFactory(pageobject);
 
@@ -128,12 +126,9 @@ public class TestBase  {
         if (pageobject.equals("DesktopWeb")) {
             return new DesktopWebPageFactory();
         } else if (pageobject.equals("Android") || pageobject.equals("iOS")) {
-            return new AndroidPageFactory();
-        } else {
-            return null;
-
+            return new MobileWebPageFactory();
         }
-
+        return null;
     }
 
     /**
@@ -143,15 +138,20 @@ public class TestBase  {
      */
     @AfterMethod
     public void tearDown(ITestResult result) throws Exception {
-        SauceUtils.updateResults(webDriver.get(), result.isSuccess());
+        WebDriver driver = getWebDriver();
+        Boolean status = result.isSuccess();
 
+        if (TOUtils.isTO(driver)) {
+            TOUtils.updateResults(getSessionId(), status);
+        } else {
+            SauceUtils.updateResults(driver, status);
+        }
 //        System.out.println("\n\n\n" + webDriver.get().getPageSource() + "\n\n\n");
 
-        //Gets browser logs if available.
-        webDriver.get().quit();
+        driver.quit();
     }
 
     protected void annotate(String text) {
-        ((JavascriptExecutor) webDriver.get()).executeScript("sauce:context=" + text);
+        ((JavascriptExecutor) getWebDriver()).executeScript("sauce:context=" + text);
     }
 }

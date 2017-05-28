@@ -1,4 +1,4 @@
-package com.yourcompany.Pages.Android;
+package com.yourcompany.Pages.MobileWeb;
 
 import com.yourcompany.Pages.BasePage;
 import com.yourcompany.Pages.SauceHomePage;
@@ -8,9 +8,9 @@ import org.openqa.selenium.WebDriver;
 /**
  * Created by neil on 5/27/17.
  */
-public class AndroidSauceHomePage extends BasePage implements SauceHomePage {
+public class MobileWebSauceHomePage extends BasePage implements SauceHomePage {
 
-    public AndroidSauceHomePage(WebDriver driver) {
+    public MobileWebSauceHomePage(WebDriver driver) {
         this.driver = driver;
     }
     private By menuBtn = By.cssSelector(".N54G");
