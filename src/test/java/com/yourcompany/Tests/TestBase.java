@@ -6,11 +6,15 @@ import com.saucelabs.common.SauceOnDemandAuthentication;
 import com.saucelabs.common.SauceOnDemandSessionIdProvider;
 import com.saucelabs.testng.SauceOnDemandAuthenticationProvider;
 import com.saucelabs.testng.SauceOnDemandTestListener;
+import com.yourcompany.Pages.PageFactories.DesktopWebPageFactory;
+import com.yourcompany.Pages.PageFactories.PageFactory;
+import org.apache.xpath.operations.Bool;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.remote.CapabilityType;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.RemoteWebDriver;
+import org.testng.ITestResult;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Listeners;
@@ -28,8 +32,7 @@ import java.rmi.UnexpectedException;
  *
  * @author Neil Manvar
  */
-@Listeners({SauceOnDemandTestListener.class})
-public class TestBase implements SauceOnDemandSessionIdProvider, SauceOnDemandAuthenticationProvider  {
+public class TestBase  {
 
     public String seleniumURI = "@ondemand.saucelabs.com:443";
 
@@ -38,12 +41,7 @@ public class TestBase implements SauceOnDemandSessionIdProvider, SauceOnDemandAu
     public String username = System.getenv("SAUCE_USERNAME");
 
     public String accesskey = System.getenv("SAUCE_ACCESS_KEY");
-
-    /**
-     * Constructs a {@link SauceOnDemandAuthentication} instance using the supplied user name/access key.  To use the authentication
-     * supplied by environment variables or from an external file, use the no-arg {@link SauceOnDemandAuthentication} constructor.
-     */
-    public SauceOnDemandAuthentication authentication = new SauceOnDemandAuthentication(username, accesskey);
+    protected PageFactory pageFactory;
 
     /**
      * ThreadLocal variable which contains the  {@link WebDriver} instance which is used to perform browser interactions with.
@@ -64,11 +62,11 @@ public class TestBase implements SauceOnDemandSessionIdProvider, SauceOnDemandAu
     @DataProvider(name = "hardCodedBrowsers", parallel = true)
     public static Object[][] sauceBrowserDataProvider(Method testMethod) {
         return new Object[][]{
-                new Object[]{"MicrosoftEdge", "14.14393", "Windows 10"},
-                new Object[]{"firefox", "49.0", "Windows 10"},
-                new Object[]{"internet explorer", "11.0", "Windows 7"},
-                new Object[]{"safari", "10.0", "OS X 10.11"},
-                new Object[]{"chrome", "54.0", "OS X 10.10"},
+                new Object[]{"MicrosoftEdge", "14.14393", "Windows 10", "desktopWeb"},
+                new Object[]{"firefox", "49.0", "Windows 10", "desktopWeb"},
+                new Object[]{"internet explorer", "11.0", "Windows 7", "desktopWeb"},
+                new Object[]{"safari", "10.0", "OS X 10.11", "desktopWeb"},
+                new Object[]{"chrome", "54.0", "OS X 10.10", "desktopWeb"},
         };
     }
 
@@ -87,14 +85,6 @@ public class TestBase implements SauceOnDemandSessionIdProvider, SauceOnDemandAu
         return sessionId.get();
     }
 
-    /**
-     *
-     * @return the {@link SauceOnDemandAuthentication} instance containing the Sauce username/access key
-     */
-    @Override
-    public SauceOnDemandAuthentication getAuthentication() {
-        return authentication;
-    }
 
     /**
      * Constructs a new {@link RemoteWebDriver} instance which is configured to use the capabilities defined by the browser,
@@ -108,8 +98,13 @@ public class TestBase implements SauceOnDemandSessionIdProvider, SauceOnDemandAu
      * @return
      * @throws MalformedURLException if an error occurs parsing the url
      */
-    protected void createDriver(String browser, String version, String os, String methodName)
+    protected void createDriver(String browser, String version, String os, String pageobject, String methodName)
             throws MalformedURLException, UnexpectedException {
+
+//        if (SauceUtils.isSauce()) {
+//            capabilities = SauceUtils.CreateCapabilities(scenario);
+//            url = SauceUtils.getURL(USERNAME, ACCESS_KEY);
+//        }
         DesiredCapabilities capabilities = new DesiredCapabilities();
 
         // set desired capabilities to launch appropriate browser on Sauce
@@ -124,12 +119,26 @@ public class TestBase implements SauceOnDemandSessionIdProvider, SauceOnDemandAu
 
         // Launch remote browser and set it as the current thread
         webDriver.set(new RemoteWebDriver(
-                new URL("https://" + authentication.getUsername() + ":" + authentication.getAccessKey() + seleniumURI +"/wd/hub"),
+                new URL("https://" + username + ":" + accesskey  + seleniumURI +"/wd/hub"),
                 capabilities));
 
         // set current sessionId
         String id = ((RemoteWebDriver) getWebDriver()).getSessionId().toString();
         sessionId.set(id);
+
+        pageFactory = createPageFactory(pageobject);
+
+
+
+    }
+
+    private PageFactory createPageFactory(String pageobject) {
+        if (pageobject.equals("desktopWeb")) {
+            return new DesktopWebPageFactory();
+        } else {
+            return null;
+        }
+
     }
 
     /**
@@ -138,7 +147,9 @@ public class TestBase implements SauceOnDemandSessionIdProvider, SauceOnDemandAu
      * Closes the browser
      */
     @AfterMethod
-    public void tearDown() throws Exception {
+    public void tearDown(ITestResult result) throws Exception {
+        ((JavascriptExecutor) webDriver.get()).executeScript("sauce:job-result=" +
+                (result.isSuccess() ? "passed" : "failed"));
 
         //Gets browser logs if available.
         webDriver.get().quit();
