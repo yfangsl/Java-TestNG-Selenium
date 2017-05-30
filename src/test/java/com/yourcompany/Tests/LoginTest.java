@@ -1,8 +1,7 @@
 package com.yourcompany.Tests;
 
-import com.yourcompany.Pages.DesktopWeb.DesktopSauceHomePage;
-import com.yourcompany.Pages.SauceHomePage;
-import com.yourcompany.Pages.SauceLoginPage;
+import com.yourcompany.Pages.HomePage;
+import com.yourcompany.Pages.LoginPage;
 import junit.framework.Assert;
 import org.openqa.selenium.InvalidElementStateException;
 import org.openqa.selenium.WebDriver;
@@ -26,11 +25,11 @@ public class LoginTest extends TestBase {
         this.createDriver(browser, version, os, pageobject,method.getName());
         WebDriver driver = getWebDriver();
 
-        SauceHomePage homePage = pageFactory.createSauceHomePage(driver);
+        HomePage homePage = pageFactory.createSauceHomePage(driver);
         homePage.visitPage();
         homePage.goToLogin();
 
-        SauceLoginPage loginPage = pageFactory.createSauceLoginPage(driver);
+        LoginPage loginPage = pageFactory.createSauceLoginPage(driver);
         loginPage.invalidLogin();
 
         Assert.assertTrue("Invalid Login Message not present",

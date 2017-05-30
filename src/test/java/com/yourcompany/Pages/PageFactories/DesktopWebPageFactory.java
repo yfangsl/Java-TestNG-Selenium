@@ -1,8 +1,8 @@
 package com.yourcompany.Pages.PageFactories;
 
-import com.yourcompany.Pages.DesktopWeb.DesktopSauceHomePage;
-import com.yourcompany.Pages.DesktopWeb.DesktopSauceLoginPage;
-import com.yourcompany.Pages.SauceLoginPage;
+import com.yourcompany.Pages.DesktopWeb.DesktopHomePage;
+import com.yourcompany.Pages.DesktopWeb.DesktopLoginPage;
+import com.yourcompany.Pages.LoginPage;
 import org.openqa.selenium.WebDriver;
 
 /**
@@ -10,12 +10,12 @@ import org.openqa.selenium.WebDriver;
  */
 public class DesktopWebPageFactory implements PageFactory {
     @Override
-    public DesktopSauceHomePage createSauceHomePage(WebDriver driver) {
-        return new DesktopSauceHomePage(driver);
+    public DesktopHomePage createSauceHomePage(WebDriver driver) {
+        return new DesktopHomePage(driver);
     }
 
     @Override
-    public SauceLoginPage createSauceLoginPage(WebDriver driver) {
-        return new DesktopSauceLoginPage(driver);
+    public LoginPage createSauceLoginPage(WebDriver driver) {
+        return new DesktopLoginPage(driver);
     }
 }

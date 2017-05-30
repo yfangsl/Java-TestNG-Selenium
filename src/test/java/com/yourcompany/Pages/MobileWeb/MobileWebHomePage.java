@@ -1,16 +1,16 @@
 package com.yourcompany.Pages.MobileWeb;
 
 import com.yourcompany.Pages.BasePage;
-import com.yourcompany.Pages.SauceHomePage;
+import com.yourcompany.Pages.HomePage;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 
 /**
  * Created by neil on 5/27/17.
  */
-public class MobileWebSauceHomePage extends BasePage implements SauceHomePage {
+public class MobileWebHomePage extends BasePage implements HomePage {
 
-    public MobileWebSauceHomePage(WebDriver driver) {
+    public MobileWebHomePage(WebDriver driver) {
         super(driver);
     }
     private By menuBtn = By.cssSelector(".N54G");

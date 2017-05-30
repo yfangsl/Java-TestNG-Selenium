@@ -1,8 +1,7 @@
 package com.yourcompany.Pages.PageFactories;
 
-import com.yourcompany.Pages.MobileWeb.MobileWebSauceHomePage;
-import com.yourcompany.Pages.MobileWeb.MobileWebSauceLoginPage;
-import com.yourcompany.Pages.SauceLoginPage;
+import com.yourcompany.Pages.MobileWeb.MobileWebHomePage;
+import com.yourcompany.Pages.MobileWeb.MobileWebLoginPage;
 import org.openqa.selenium.WebDriver;
 
 /**
@@ -10,12 +9,12 @@ import org.openqa.selenium.WebDriver;
  */
 public class MobileWebPageFactory implements PageFactory {
     @Override
-    public MobileWebSauceHomePage createSauceHomePage(WebDriver driver) {
-        return new MobileWebSauceHomePage(driver);
+    public MobileWebHomePage createSauceHomePage(WebDriver driver) {
+        return new MobileWebHomePage(driver);
     }
 
     @Override
-    public MobileWebSauceLoginPage createSauceLoginPage(WebDriver driver) {
-        return new MobileWebSauceLoginPage(driver);
+    public MobileWebLoginPage createSauceLoginPage(WebDriver driver) {
+        return new MobileWebLoginPage(driver);
     }
 }

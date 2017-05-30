@@ -1,15 +1,11 @@
-package com.yourcompany.Pages.MobileWeb;
+package com.yourcompany.Pages.DesktopWeb;
 
 import com.yourcompany.Pages.BasePage;
-import com.yourcompany.Pages.SauceHomePage;
-import com.yourcompany.Pages.SauceLoginPage;
+import com.yourcompany.Pages.LoginPage;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 
-/**
- * Created by neil on 5/27/17.
- */
-public class MobileWebSauceLoginPage extends BasePage implements SauceLoginPage {
+public class DesktopLoginPage extends BasePage implements LoginPage {
 
     By usernameLocator = By.cssSelector("[name='username']");
     By passwordLocator = By.cssSelector("[name='password']");
@@ -17,7 +13,7 @@ public class MobileWebSauceLoginPage extends BasePage implements SauceLoginPage 
 
     By invalidMessage = By.xpath("//*[contains(text(), 'Invalid username or password')]");
 
-    public MobileWebSauceLoginPage(WebDriver driver) {
+    public DesktopLoginPage(WebDriver driver) {
         super(driver);
     }
 

@@ -1,13 +1,13 @@
 package com.yourcompany.Pages.PageFactories;
-import com.yourcompany.Pages.SauceHomePage;
-import com.yourcompany.Pages.SauceLoginPage;
+import com.yourcompany.Pages.HomePage;
+import com.yourcompany.Pages.LoginPage;
 import org.openqa.selenium.WebDriver;
 
 /**
  * Created by neil on 3/1/17.
  */
 public interface PageFactory {
-    SauceHomePage createSauceHomePage(WebDriver driver);
+    HomePage createSauceHomePage(WebDriver driver);
 
-    SauceLoginPage createSauceLoginPage(WebDriver driver);
+    LoginPage createSauceLoginPage(WebDriver driver);
 }

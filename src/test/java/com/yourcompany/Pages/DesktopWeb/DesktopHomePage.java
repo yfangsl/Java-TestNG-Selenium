@@ -1,13 +1,13 @@
 package com.yourcompany.Pages.DesktopWeb;
 
 import com.yourcompany.Pages.BasePage;
-import com.yourcompany.Pages.SauceHomePage;
+import com.yourcompany.Pages.HomePage;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 
-public class DesktopSauceHomePage extends BasePage implements SauceHomePage {
+public class DesktopHomePage extends BasePage implements HomePage {
 
-    public DesktopSauceHomePage(WebDriver driver) {
+    public DesktopHomePage(WebDriver driver) {
         super(driver);
     }
     private By signInButton = By.cssSelector("header a[href='/beta/login']");
