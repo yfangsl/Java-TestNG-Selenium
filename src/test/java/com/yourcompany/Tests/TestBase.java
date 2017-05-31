@@ -51,19 +51,31 @@ public class TestBase  {
     @DataProvider(name = "hardCodedBrowsers", parallel = true)
     public static Object[][] sauceBrowserDataProvider(Method testMethod) {
         return new Object[][]{
-                new Object[]{"MicrosoftEdge", "14.14393", "Windows 10", "DesktopWeb"},
-                new Object[]{"firefox", "49.0", "Windows 10", "DesktopWeb"},
-                new Object[]{"internet explorer", "11.0", "Windows 7", "DesktopWeb"},
-                new Object[]{"safari", "10.0", "OS X 10.11", "DesktopWeb"},
-                new Object[]{"chrome", "54.0", "OS X 10.10", "DesktopWeb"},
+//                // Browsers on Sauce
+//                new Object[]{"MicrosoftEdge", "14.14393", "Windows 10", "DesktopWeb"},
+//                new Object[]{"firefox", "49.0", "Windows 10", "DesktopWeb"},
+//                new Object[]{"internet explorer", "11.0", "Windows 7", "DesktopWeb"},
+//                new Object[]{"safari", "latest", "OS X 10.11", "DesktopWeb"},
+//                new Object[]{"chrome", "54.0", "OS X 10.10", "DesktopWeb"},
 //
-                new Object[]{"chrome", "6.0", "Android Emulator", "Android"},
-                new Object[]{"Browser", "5.0", "Android Emulator", "Android"},
+//                // Emulators on Sauce
+//                new Object[]{"chrome", "6.0", "Android Emulator", "Android"},
+//                new Object[]{"Browser", "5.0", "Android Emulator", "Android"},
+//
+//
+//                // Simulators on Sauce
+//                new Object[]{"Safari", "10.3", "iPhone 6 Simulator", "iOS"},
+//                new Object[]{"Safari", "9.3", "iPad 2 Simulator", "DesktopWeb"},
 
-                new Object[]{"Safari", "10.3", "iPhone 6 Simulator", "iOS"},
-                new Object[]{"Safari", "9.3", "iPad 2 Simulator", "DesktopWeb"},
 
-                new Object[]{"TestObject - Safari", "9.3", "iPad_3_16GB_real_2", "DesktopWeb"},
+                // iOS Real Devices on TO
+                new Object[]{"TestObject - Safari", "10.0", "iPhone_6_Plus_real_us", "iOS"},
+                new Object[]{"TestObject - Safari", "9.3", "iPad_Pro_9_7_real_us", "DesktopWeb"},
+
+                // Android Real Devices on TO
+                new Object[]{"TestObject - Chrome", "7.0", "Samsung_Galaxy_S8_plus_real_us", "Android"},
+                new Object[]{"TestObject - Chrome", "6.0", "Asus_Google_Nexus_7_2013_real", "DesktopWeb"},
+
         };
     }
 
