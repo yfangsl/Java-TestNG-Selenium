@@ -51,22 +51,20 @@ public class TestBase  {
     @DataProvider(name = "hardCodedBrowsers", parallel = true)
     public static Object[][] sauceBrowserDataProvider(Method testMethod) {
         return new Object[][]{
-//                // Browsers on Sauce
-//                new Object[]{"MicrosoftEdge", "14.14393", "Windows 10", "DesktopWeb"},
-//                new Object[]{"firefox", "49.0", "Windows 10", "DesktopWeb"},
-//                new Object[]{"internet explorer", "11.0", "Windows 7", "DesktopWeb"},
-//                new Object[]{"safari", "latest", "OS X 10.11", "DesktopWeb"},
-//                new Object[]{"chrome", "54.0", "OS X 10.10", "DesktopWeb"},
-//
-//                // Emulators on Sauce
-//                new Object[]{"chrome", "6.0", "Android Emulator", "Android"},
-//                new Object[]{"Browser", "5.0", "Android Emulator", "Android"},
-//
-//
-//                // Simulators on Sauce
-//                new Object[]{"Safari", "10.3", "iPhone 6 Simulator", "iOS"},
-//                new Object[]{"Safari", "9.3", "iPad 2 Simulator", "DesktopWeb"},
+                // Browsers on Sauce
+                new Object[]{"MicrosoftEdge", "14.14393", "Windows 10", "DesktopWeb"},
+                new Object[]{"firefox", "49.0", "Windows 10", "DesktopWeb"},
+                new Object[]{"internet explorer", "11.0", "Windows 7", "DesktopWeb"},
+                new Object[]{"safari", "latest", "OS X 10.11", "DesktopWeb"},
+                new Object[]{"chrome", "54.0", "OS X 10.10", "DesktopWeb"},
 
+                // Emulators on Sauce
+                new Object[]{"chrome", "6.0", "Android Emulator", "Android"},
+                new Object[]{"Browser", "5.0", "Android Emulator", "Android"},
+
+                // Simulators on Sauce
+                new Object[]{"Safari", "10.3", "iPhone 6 Simulator", "iOS"},
+                new Object[]{"Safari", "9.3", "iPad 2 Simulator", "DesktopWeb"},
 
                 // iOS Real Devices on TO
                 new Object[]{"TestObject - Safari", "10.0", "iPhone_6_Plus_real_us", "iOS"},
