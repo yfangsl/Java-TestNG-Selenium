@@ -9,6 +9,7 @@ import org.testng.annotations.Test;
 import java.lang.reflect.Method;
 import java.net.MalformedURLException;
 import java.rmi.UnexpectedException;
+import java.util.Random;
 
 /**
  * Created by mehmetgerceker on 12/7/15.
@@ -29,14 +30,62 @@ public class FollowLinkTest extends TestBase {
         this.createDriver(browser, version, os, method.getName());
         WebDriver driver = this.getWebDriver();
 
-        this.annotate("Visiting GuineaPig page...");
-        GuineaPigPage page = GuineaPigPage.visitPage(driver);
+        Random rand = new Random();
+        int num = rand.nextInt(3);
+        System.out.println("num is " + num);
 
-        this.annotate("Clicking on link...");
-        page.followLink();
 
-        this.annotate("Asserting that we are on a new page...");
-        Assert.assertFalse(page.isOnPage());
+        Assert.assertNotEquals(num, 2);
     }
+
+    @Test(dataProvider = "hardCodedBrowsers")
+    public void verifyHeaderTest(String browser, String version, String os, Method method)
+            throws MalformedURLException, InvalidElementStateException, UnexpectedException {
+
+        //create webdriver session
+        this.createDriver(browser, version, os, method.getName());
+        WebDriver driver = this.getWebDriver();
+
+        Random rand = new Random();
+        int num = rand.nextInt(3);
+        System.out.println("num is " + num);
+
+
+        Assert.assertNotEquals(num, 2);
+    }
+
+    @Test(dataProvider = "hardCodedBrowsers")
+    public void verifyFooterTest(String browser, String version, String os, Method method)
+            throws MalformedURLException, InvalidElementStateException, UnexpectedException {
+
+        //create webdriver session
+        this.createDriver(browser, version, os, method.getName());
+        WebDriver driver = this.getWebDriver();
+
+        Random rand = new Random();
+        int num = rand.nextInt(3);
+        System.out.println("num is " + num);
+
+
+        Assert.assertNotEquals(num, 2);
+    }
+
+    @Test(dataProvider = "hardCodedBrowsers")
+    public void verifyBodyTest(String browser, String version, String os, Method method)
+            throws MalformedURLException, InvalidElementStateException, UnexpectedException {
+
+        //create webdriver session
+        this.createDriver(browser, version, os, method.getName());
+        WebDriver driver = this.getWebDriver();
+
+        Random rand = new Random();
+        int num = rand.nextInt(3);
+        System.out.println("num is " + num);
+
+
+        Assert.assertNotEquals(num, 2);
+    }
+
+
 
 }
