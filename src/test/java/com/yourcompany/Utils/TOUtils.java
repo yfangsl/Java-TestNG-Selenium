@@ -15,7 +15,9 @@ import java.util.Collections;
  * Created by neil on 5/27/17.
  */
 public class TOUtils {
-    static String accesskey = System.getenv("TO_ACCESS_KEY");
+    static String webAccesskey = System.getenv("TO_WEB_ACCESS_KEY");
+    static String iosAccessKey = System.getenv("TO_IOS_ACCESS_KEY");
+    static String androidAccessKey = System.getenv("TO_ANDROID_ACCESS_KEY");
 
     public static boolean isTO(WebDriver driver) {
         return ((RemoteWebDriver) driver).getCapabilities().getCapability("testobject_device") != null;
@@ -26,9 +28,16 @@ public class TOUtils {
     }
 
     public static DesiredCapabilities CreateCapabilities(String browser, String version, String os, String pageobject, String methodName) {
+        String key = "";
+
         DesiredCapabilities caps = new DesiredCapabilities();
         caps.setCapability("testobject_device", os);
-        caps.setCapability("testobject_api_key", accesskey);
+        if (pageobject.contains("MobileNative")) {
+            key = pageobject.contains("Android") ? androidAccessKey : iosAccessKey;
+        } else {
+            key = webAccesskey;
+        }
+        caps.setCapability("testobject_api_key", key);
         caps.setCapability("testobject_test_name", methodName);
 
         caps.setCapability("testobject_appium_version", "1.6.4");

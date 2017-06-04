@@ -2,10 +2,17 @@ package com.yourcompany.Tests;
 
 // import Sauce TestNG helper libraries
 
+import com.yourcompany.Pages.MobileNative.Android.MobileNativeAndroidGuineaPigPage;
+import com.yourcompany.Pages.PageFactories.MobileNative.AndroidNativePageFactory;
+import com.yourcompany.Pages.PageFactories.MobileNative.IosNativePageFactory;
+import com.yourcompany.Pages.PageFactories.MobileNativePageFactory;
 import com.yourcompany.Pages.PageFactories.MobileWebPageFactory;
 import com.yourcompany.Pages.PageFactories.DesktopWebPageFactory;
 import com.yourcompany.Pages.PageFactories.PageFactory;
 import com.yourcompany.Utils.TOUtils;
+import io.appium.java_client.AppiumDriver;
+import io.appium.java_client.android.AndroidDriver;
+import io.appium.java_client.ios.IOSDriver;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.remote.DesiredCapabilities;
@@ -30,7 +37,8 @@ import java.rmi.UnexpectedException;
  */
 public class TestBase  {
 
-    protected PageFactory pageFactory;
+    protected PageFactory pageFactory = null;
+    protected MobileNativePageFactory mobileNativePageFactory = null;
 
     /**
      * ThreadLocal variable which contains the  {@link WebDriver} instance which is used to perform browser interactions with.
@@ -77,12 +85,27 @@ public class TestBase  {
         };
     }
 
+    @DataProvider(name = "hardCodedDevices", parallel = true)
+    public static Object[][] sauceDevicesDataProvider(Method testMethod) {
+        return new Object[][]{
+                // Android Real Devices on TO
+//                new Object[]{"TestObject - S8", "7.0", "Samsung_Galaxy_S8_plus_real_us", "MobileNative - Android"},
+//                new Object[]{"TestObject - Chrome", "6.0", "Asus_Google_Nexus_7_2013_real", "MobileNative - Android"},
+//
+//                // iOS Real Devices on TO
+                new Object[]{"TestObject - Safari", "10.0", "iPhone_6_Plus_real_us", "MobileNative - iOS"},
+//                new Object[]{"TestObject - Safari", "9.3", "iPad_Pro_9_7_real_us", "MobileNative - iOS"},
+
+        };
+    }
+
     /**
      * @return the {@link WebDriver} for the current thread
      */
     public WebDriver getWebDriver() {
         return webDriver.get();
     }
+
 
     /**
      *
@@ -118,17 +141,34 @@ public class TestBase  {
             capabilities = SauceUtils.CreateCapabilities(browser, version, os, pageobject, methodName);
             url = SauceUtils.getURL();
         }
-        // Launch remote browser and set it as the current thread
-        webDriver.set(new RemoteWebDriver(
-                new URL(url),
-                capabilities));
-
-        // set current sessionId
-        sessionId.set(((RemoteWebDriver) getWebDriver()).getSessionId().toString());
-
-        pageFactory = createPageFactory(pageobject);
 
 
+
+        if (pageobject.contains("MobileNative")) {
+            // Launch remote browser and set it as the current thread
+            if (pageobject.contains("Android")) {
+                webDriver.set(new AndroidDriver(
+                        new URL(url),
+                        capabilities));
+            } else {
+                webDriver.set(new IOSDriver(
+                        new URL(url),
+                        capabilities));
+            }
+
+            // set current sessionId
+            sessionId.set(((RemoteWebDriver) getWebDriver()).getSessionId().toString());
+            mobileNativePageFactory = createMobileNativePageFactory(pageobject);
+        } else {
+            // Launch remote browser and set it as the current thread
+            webDriver.set(new RemoteWebDriver(
+                    new URL(url),
+                    capabilities));
+
+            // set current sessionId
+            sessionId.set(((RemoteWebDriver) getWebDriver()).getSessionId().toString());
+            pageFactory = createPageFactory(pageobject);
+        }
 
     }
 
@@ -139,6 +179,14 @@ public class TestBase  {
             return new MobileWebPageFactory();
         }
         return null;
+    }
+
+    private MobileNativePageFactory createMobileNativePageFactory(String pageobject) {
+        if (pageobject.contains("iOS")) {
+            return new IosNativePageFactory();
+
+        }
+        return new AndroidNativePageFactory();
     }
 
     /**
