@@ -32,4 +32,9 @@ public class BasePage {
         return new WebDriverWait(driver, 30).until(ExpectedConditions.presenceOfElementLocated(locator));
     }
 
+    public String getText(By locator) {
+        waitForElement(locator);
+        return driver.findElement(locator).getText();
+    }
+
 }

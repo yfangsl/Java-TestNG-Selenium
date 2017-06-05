@@ -11,11 +11,8 @@ import org.openqa.selenium.WebDriver;
 public class MobileNativeIosGuineaPigPage extends BasePage implements GuineaPigPage {
 
     By h1Text = By.id("h1Text");
-
     By yourComments = By.id("submittedComments");
-
     By commentsTextInput = By.id("comments");
-
     By submitBtn = By.id("submit");
 
     public MobileNativeIosGuineaPigPage(WebDriver driver) {
@@ -23,15 +20,17 @@ public class MobileNativeIosGuineaPigPage extends BasePage implements GuineaPigP
     }
 
     @Override
-    public void submitComment(String comment) {
-        driver.findElement(commentsTextInput).click();
-        driver.findElement(commentsTextInput).sendKeys(comment);
-        driver.findElement(h1Text).click();
-        driver.findElement(submitBtn).click();
+    public void submitComment(String comment) throws Exception {
+        click(commentsTextInput);
+        sendKeys(commentsTextInput, comment);
+        click(h1Text);
+        click(yourComments);
+
+        click(submitBtn);
     }
 
     @Override
     public String getSubmittedCommentText() {
-        return driver.findElement(yourComments).getText();
+        return getText(yourComments);
     }
 }

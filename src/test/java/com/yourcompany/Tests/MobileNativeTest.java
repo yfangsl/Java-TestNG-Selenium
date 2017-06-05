@@ -31,6 +31,8 @@ public class MobileNativeTest extends TestBase {
 
         page.submitComment(commentInputText);
 
+        String submittedComment = page.getSubmittedCommentText();
+
         Assert.assertTrue(page.getSubmittedCommentText().contains(commentInputText));
     }
 

@@ -19,15 +19,15 @@ public class MobileNativeAndroidGuineaPigPage extends BasePage implements Guinea
     }
 
     @Override
-    public void submitComment(String comment) {
-        driver.findElement(commentsTextInput).click();
-        driver.findElement(commentsTextInput).sendKeys(comment);
-        driver.findElement(h1Text).click();
-        driver.findElement(submitBtn).click();
+    public void submitComment(String comment) throws Exception {
+        click(commentsTextInput);
+        sendKeys(commentsTextInput, comment);
+        click(h1Text);
+        click(submitBtn);
     }
 
     @Override
     public String getSubmittedCommentText() {
-        return driver.findElement(yourComments).getText();
+        return getText(yourComments);
     }
 }
