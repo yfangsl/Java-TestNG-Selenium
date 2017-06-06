@@ -2,6 +2,7 @@ package com.yourcompany.Pages.MobileNative.Android;
 
 import com.yourcompany.Pages.BasePage;
 import com.yourcompany.Pages.GuineaPigPage;
+import io.appium.java_client.android.AndroidDriver;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 
@@ -22,6 +23,7 @@ public class MobileNativeAndroidGuineaPigPage extends BasePage implements Guinea
     public void submitComment(String comment) throws Exception {
         click(commentsTextInput);
         sendKeys(commentsTextInput, comment);
+        ((AndroidDriver)driver).hideKeyboard();
         click(h1Text);
         click(submitBtn);
     }

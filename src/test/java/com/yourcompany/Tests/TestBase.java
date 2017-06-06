@@ -89,13 +89,12 @@ public class TestBase  {
     public static Object[][] sauceDevicesDataProvider(Method testMethod) {
         return new Object[][]{
                 // Android Real Devices on TO
-//                new Object[]{"TestObject - S8", "7.0", "Samsung_Galaxy_S8_plus_real_us", "MobileNative - Android"},
-                new Object[]{"TestObject - Nexus 7", "6.0", "Asus_Google_Nexus_7_2013_real", "MobileNative - Android"},
-//
-//                // iOS Real Devices on TO
-//                new Object[]{"TestObject - iPhone 6", "10.0", "iPhone_6_Plus_real_us", "MobileNative - iOS"},
-//                new Object[]{"TestObject - iPad Pro", "9.3", "iPad_Pro_9_7_real_us", "MobileNative - iOS"},
+                new Object[]{"TestObject - S8", "7.0", "Google_Pixel_real", "MobileNative - Android"},
+//                new Object[]{"TestObject - Nexus 7", "6.0", "Samsung_Galaxy_Tab_Active_real_us", "MobileNative - Android"},
 
+                // iOS Real Devices on TO
+                new Object[]{"TestObject - iPhone 6", "10.0", "iPhone_6_Plus_real_us", "MobileNative - iOS"},
+                new Object[]{"TestObject - iPad Pro", "9.3", "iPad_Pro_9_7_real_us", "MobileNative - iOS"},
         };
     }
 

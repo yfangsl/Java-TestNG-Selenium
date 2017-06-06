@@ -41,6 +41,7 @@ public class TOUtils {
         caps.setCapability("testobject_test_name", methodName);
 
         caps.setCapability("testobject_appium_version", "1.6.4");
+        caps.setCapability("deviceOrientation", "portrait");
         return caps;
     }
 
