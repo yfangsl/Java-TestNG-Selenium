@@ -22,7 +22,7 @@ public class MobileNativeTest extends TestBase {
     @org.testng.annotations.Test(dataProvider = "hardCodedDevices")
     public void mobileNativeTestTest(String browser, String version, String os, String pageobject, Method method)
             throws Exception {
-        this.createDriver(browser, version, os, pageobject,method.getName());
+        this.createDriver(browser, version, os, pageobject, method.getName());
         WebDriver driver = getWebDriver();
 
         String commentInputText = UUID.randomUUID().toString();

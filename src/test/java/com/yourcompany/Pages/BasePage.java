@@ -26,6 +26,7 @@ public class BasePage {
     public void sendKeys(By locator, String text) throws Exception {
         WebElement element = waitForElement(locator);
         element.sendKeys(text);
+        Thread.sleep(1000);
     }
 
     public WebElement waitForElement(By locator) {

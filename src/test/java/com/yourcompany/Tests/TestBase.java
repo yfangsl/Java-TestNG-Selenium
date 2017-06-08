@@ -79,8 +79,8 @@ public class TestBase  {
                 new Object[]{"TestObject - Safari", "9.3", "iPad_Pro_9_7_real_us", "DesktopWeb"},
 
                 // Android Real Devices on TO
-                new Object[]{"TestObject - Chrome", "7.0", "Samsung_Galaxy_S8_plus_real_us", "Android"},
-                new Object[]{"TestObject - Chrome", "6.0", "Asus_Google_Nexus_7_2013_real", "DesktopWeb"},
+                new Object[]{"TestObject - Chrome", "7.0", "Samsung_Galaxy_S7_real", "Android"},
+                new Object[]{"TestObject - Chrome", "6.0", "Google_Pixel_C_real", "DesktopWeb"},
 
         };
     }
@@ -89,12 +89,18 @@ public class TestBase  {
     public static Object[][] sauceDevicesDataProvider(Method testMethod) {
         return new Object[][]{
                 // Android Real Devices on TO
-                new Object[]{"TestObject - S8", "7.0", "Google_Pixel_real", "MobileNative - Android"},
-//                new Object[]{"TestObject - Nexus 7", "6.0", "Samsung_Galaxy_Tab_Active_real_us", "MobileNative - Android"},
+                new Object[]{"TestObject - Google Pixel", "7.0", "Google_Pixel_real", "MobileNative - Android"},
+                 new Object[]{"TestObject - Nexus 7", "6.0", "Samsung_Galaxy_Tab_Active_real_us", "MobileNative - Android"},
 
                 // iOS Real Devices on TO
                 new Object[]{"TestObject - iPhone 6", "10.0", "iPhone_6_Plus_real_us", "MobileNative - iOS"},
-                new Object[]{"TestObject - iPad Pro", "9.3", "iPad_Pro_9_7_real_us", "MobileNative - iOS"},
+                new Object[]{"TestObject - iPad 3", "9.3", "iPad_3_16GB_real_2", "MobileNative - iOS"},
+
+                new Object[]{"", "5.0", "Android Emulator", "MobileNative - Android"},
+                new Object[]{"", "6.0", "Android Emulator", "MobileNative - Android"},
+
+                new Object[]{"", "10.3", "iPhone 6 Simulator", "MobileNative - iOS"},
+                new Object[]{"", "9.3", "iPad 2 Simulator", "MobileNative - iOS"},
         };
     }
 
@@ -146,6 +152,7 @@ public class TestBase  {
         if (pageobject.contains("MobileNative")) {
             // Launch remote browser and set it as the current thread
             if (pageobject.contains("Android")) {
+                // TO DO: set desired caps for app (sim and emu on Sauce)
                 webDriver.set(new AndroidDriver(
                         new URL(url),
                         capabilities));
@@ -203,7 +210,6 @@ public class TestBase  {
         } else {
             SauceUtils.updateResults(driver, status);
         }
-//        System.out.println("\n\n\n" + webDriver.get().getPageSource() + "\n\n\n");
 
         driver.quit();
     }

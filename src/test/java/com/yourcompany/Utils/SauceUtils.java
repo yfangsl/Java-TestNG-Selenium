@@ -11,6 +11,9 @@ public class SauceUtils {
     static String username = System.getenv("SAUCE_USERNAME");
     static String accesskey = System.getenv("SAUCE_ACCESS_KEY");
 
+    static String androidApp = "https://github.com/saucelabs-sample-test-frameworks/GuineaPig-Sample-App/blob/master/android/GuineaPigApp-debug.apk?raw=true";
+    static String iosApp = "https://github.com/saucelabs-sample-test-frameworks/Java-Junit-Appium-iOS/blob/master/resources/SauceGuineaPig-sim-debug.app.zip?raw=true";
+
     public static boolean isSauce(String os, String pageobject) {
         return os.contains("Simulator") || os.contains("Emulator") || pageobject.equals("DesktopWeb");
     }
@@ -28,6 +31,10 @@ public class SauceUtils {
             caps.setCapability("browserName", browser);
 
             caps.setCapability("appiumVersion", "1.6.4");
+
+            if (pageobject.contains("MobileNative")) {
+                caps.setCapability("app", isEmulator ? androidApp : iosApp);
+            }
 
         } else {
             caps.setCapability("browserName", browser);
