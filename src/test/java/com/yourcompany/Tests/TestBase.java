@@ -72,7 +72,7 @@ public class TestBase implements SauceOnDemandSessionIdProvider, SauceOnDemandAu
         String osName;
 
         System.out.println(SAUCE_ONDEMAND_BROWSERS);
-
+        System.out.println(System.getenv("SAUCE_ONDEMAND_BROWSERS"));
 
         return new Object[][]{
                 new Object[]{"MicrosoftEdge", "14.14393", "Windows 10"},
