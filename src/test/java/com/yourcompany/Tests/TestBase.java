@@ -6,6 +6,7 @@ import com.saucelabs.common.SauceOnDemandAuthentication;
 import com.saucelabs.common.SauceOnDemandSessionIdProvider;
 import com.saucelabs.testng.SauceOnDemandAuthenticationProvider;
 import com.saucelabs.testng.SauceOnDemandTestListener;
+import org.json.JSONException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.remote.CapabilityType;
 import org.openqa.selenium.remote.DesiredCapabilities;
@@ -18,6 +19,8 @@ import java.lang.reflect.Method;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.rmi.UnexpectedException;
+
+import static com.saucelabs.testng.SauceBrowserDataProvider.SAUCE_ONDEMAND_BROWSERS;
 
 // import testng annotations
 // import java libraries
@@ -54,6 +57,9 @@ public class TestBase implements SauceOnDemandSessionIdProvider, SauceOnDemandAu
      */
     private ThreadLocal<String> sessionId = new ThreadLocal<String>();
 
+    public TestBase() throws JSONException {
+    }
+
     /**
      * DataProvider that explicitly sets the browser combinations to be used.
      *
@@ -61,7 +67,14 @@ public class TestBase implements SauceOnDemandSessionIdProvider, SauceOnDemandAu
      * @return Two dimensional array of objects with browser, version, and platform information
      */
     @DataProvider(name = "hardCodedBrowsers", parallel = true)
-    public static Object[][] sauceBrowserDataProvider(Method testMethod) {
+    public static Object[][] sauceBrowserDataProvider(Method testMethod) throws JSONException {
+        String browserName;
+        String browserVersion;
+        String osName;
+
+        System.out.println(SAUCE_ONDEMAND_BROWSERS);
+
+
         return new Object[][]{
                 new Object[]{"MicrosoftEdge", "14.14393", "Windows 10"},
                 new Object[]{"firefox", "49.0", "Windows 10"},
@@ -69,6 +82,29 @@ public class TestBase implements SauceOnDemandSessionIdProvider, SauceOnDemandAu
                 new Object[]{"safari", "10.0", "OS X 10.11"},
                 new Object[]{"chrome", "54.0", "OS X 10.10"},
         };
+//        else
+//        {
+//            List<String> browserNames = new ArrayList<String>();
+//            List<String> browserVersions = new ArrayList<String>();
+//            List<String> osNames = new ArrayList<String>();
+//            JSONArray arr;
+//            JSONObject obj;
+//            obj = new JSONObject(SAUCE_ONDEMAND_BROWSERS);
+//            arr = obj.getJSONArray("posts");
+//            for (int i = 0; i < arr.length(); i++)
+//            {
+//                browserNames.add(arr.getJSONObject(i).getString("browser"));
+//                browserVersions.add(arr.getJSONObject(i).getString("browser-version"));
+//                osNames.add(arr.getJSONObject(i).getString("os"));
+//            }
+//
+//
+//            return new Object[][]{
+//
+//
+//            }
+//        }
+
     }
 
     /**
