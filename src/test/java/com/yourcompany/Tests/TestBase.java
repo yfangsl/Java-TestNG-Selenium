@@ -6,7 +6,6 @@ import com.saucelabs.common.SauceOnDemandAuthentication;
 import com.saucelabs.common.SauceOnDemandSessionIdProvider;
 import com.saucelabs.testng.SauceOnDemandAuthenticationProvider;
 import com.saucelabs.testng.SauceOnDemandTestListener;
-import org.json.JSONException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.remote.CapabilityType;
 import org.openqa.selenium.remote.DesiredCapabilities;
@@ -57,7 +56,7 @@ public class TestBase implements SauceOnDemandSessionIdProvider, SauceOnDemandAu
      */
     private ThreadLocal<String> sessionId = new ThreadLocal<String>();
 
-    public TestBase() throws JSONException {
+    public TestBase() {
     }
 
     /**
@@ -67,7 +66,7 @@ public class TestBase implements SauceOnDemandSessionIdProvider, SauceOnDemandAu
      * @return Two dimensional array of objects with browser, version, and platform information
      */
     @DataProvider(name = "hardCodedBrowsers", parallel = true)
-    public static Object[][] sauceBrowserDataProvider(Method testMethod) throws JSONException {
+    public static Object[][] sauceBrowserDataProvider(Method testMethod) {
         String browserName;
         String browserVersion;
         String osName;
