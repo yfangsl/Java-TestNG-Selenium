@@ -6,6 +6,9 @@ import com.saucelabs.common.SauceOnDemandAuthentication;
 import com.saucelabs.common.SauceOnDemandSessionIdProvider;
 import com.saucelabs.testng.SauceOnDemandAuthenticationProvider;
 import com.saucelabs.testng.SauceOnDemandTestListener;
+import org.json.simple.JSONArray;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.remote.CapabilityType;
 import org.openqa.selenium.remote.DesiredCapabilities;
@@ -18,8 +21,6 @@ import java.lang.reflect.Method;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.rmi.UnexpectedException;
-
-import static com.saucelabs.testng.SauceBrowserDataProvider.SAUCE_ONDEMAND_BROWSERS;
 
 // import testng annotations
 // import java libraries
@@ -67,12 +68,23 @@ public class TestBase implements SauceOnDemandSessionIdProvider, SauceOnDemandAu
      */
     @DataProvider(name = "hardCodedBrowsers", parallel = true)
     public static Object[][] sauceBrowserDataProvider(Method testMethod) {
+        JSONParser parser = new JSONParser();
         String browserName;
         String browserVersion;
         String osName;
 
-        System.out.println(SAUCE_ONDEMAND_BROWSERS);
-        System.out.println(System.getenv("SAUCE_ONDEMAND_BROWSERS"));
+        try {
+            Object obj = parser.parse(System.getenv("SAUCE_ONDEMAND_BROWSERS"));
+            JSONArray array = (JSONArray)obj;
+            for(int i = 0;i< array.size(); i++){
+                System.out.println(array.get(i));
+            }
+
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+
 
         return new Object[][]{
                 new Object[]{"MicrosoftEdge", "14.14393", "Windows 10"},
@@ -81,6 +93,9 @@ public class TestBase implements SauceOnDemandSessionIdProvider, SauceOnDemandAu
                 new Object[]{"safari", "10.0", "OS X 10.11"},
                 new Object[]{"chrome", "54.0", "OS X 10.10"},
         };
+
+
+
 //        else
 //        {
 //            List<String> browserNames = new ArrayList<String>();
