@@ -95,6 +95,8 @@ public class TestBase  {
         capabilities.setCapability(CapabilityType.BROWSER_NAME, browser);
         capabilities.setCapability(CapabilityType.VERSION, version);
         capabilities.setCapability(CapabilityType.PLATFORM, os);
+        capabilities.setCapability("firefoxAdapterVersion", "0.0.3");
+        capabilities.setCapability("crmuxdriverVersion", "0.0.3");
         capabilities.setCapability("name", methodName);
 
         if (buildTag != null) {
