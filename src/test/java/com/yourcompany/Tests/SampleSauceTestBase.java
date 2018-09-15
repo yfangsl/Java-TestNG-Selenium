@@ -125,7 +125,7 @@ public class SampleSauceTestBase implements SauceOnDemandSessionIdProvider, Sauc
         capabilities.setCapability("name", methodName);
 
         if (buildTag != null) {
-            capabilities.setCapability("build", "test_build_name");
+            capabilities.setCapability("build", buildTag);
         }
 
         SauceHelpers.addSauceConnectTunnelId(capabilities);
