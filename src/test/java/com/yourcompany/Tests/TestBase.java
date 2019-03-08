@@ -105,7 +105,7 @@ public class TestBase  {
 
         // Launch remote browser and set it as the current thread
         webDriver.set(new RemoteWebDriver(
-                new URL("https://" + username + ":" + accesskey + "@ondemand.eu-central-1.saucelabs.com"),
+                new URL("https://" + username + ":" + accesskey + "@ondemand.eu-central-1.saucelabs.com/wd/hub"),
                 capabilities));
 
         // set current sessionId
